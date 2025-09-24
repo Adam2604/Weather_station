@@ -1,8 +1,10 @@
 import sqlite3
 import paho.mqtt.client as mqtt
+import time
 import sys
+import os
 
-BROKER = "localhost"           
+BROKER = "localhost"           # lokalny broker - jeśli uruchamiasz na tym samym RPi
 TOPIC = "stacja"
 DB_FILE = "mqtt_data.db"
 
@@ -37,12 +39,20 @@ def on_message(client, userdata, msg):
     except Exception as e:
         payload = str(msg.payload)
     print(f"[on_message] {msg.topic} -> {payload}")
+    print(f"[on_message] baza: {os.path.abspath(DB_FILE)}")
 
     try:
-        cursor.execute("INSERT INTO pomiary (topic, payload) VALUES (?, ?)", (msg.topic, payload))
+        conn = sqlite3.connect(DB_FILE)  # otwieramy połączenie
+        cursor = conn.cursor()
+        cursor.execute(
+            "INSERT INTO pomiary (topic, payload) VALUES (?, ?)", 
+            (msg.topic, payload)
+        )
         conn.commit()
+        conn.close()  # zamykamy połączenie
     except Exception as e:
         print("[on_message] Błąd zapisu do DB:", e)
+
 
 client = mqtt.Client()
 client.on_connect = on_connect
@@ -58,3 +68,4 @@ except Exception as e:
 
 print("Czekam na dane...")
 client.loop_forever()
+

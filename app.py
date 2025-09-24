@@ -7,11 +7,11 @@ app = Flask(__name__)
 @app.route("/")
 def index():
     #łączenie z baza
-    conn = sqlite3.connect("dane.db")
+    conn = sqlite3.connect("mqtt_data.db")
     cursor = conn.cursor()
 
     #pobieranie ostatnich 10 wpisów
-    cursor.execute("SELECT czas, temat, wiadomosc FROM mqtt_dane ORDER BY id DESC LIMIT 10")
+    cursor.execute("SELECT timestamp, topic, payload FROM pomiary ORDER BY id DESC LIMIT 10")
     rows = cursor.fetchall()
     conn.close()
 
