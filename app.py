@@ -20,6 +20,7 @@ def index():
     <html>
     <head>
         <title>Dane MQTT</title>
+        <meta http-equiv="refresh" content="5">
     </head>
     <body>
         <h1>Ostatnie dane z MQTT</h1>
