@@ -1,6 +1,7 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
 #include "DHT.h"
+#include <ArduinoJson.h>
 
 // WiFi configuration
 const char* ssid = "NETGEAR60";
@@ -68,6 +69,7 @@ void loop() {
 
   if (isnan(h) || isnan(t)) {
     Serial.println("Błąd odczytu z DHT22!");
+    delay(2000);
     return;
   }
 
@@ -77,15 +79,16 @@ void loop() {
   Serial.print(h);
   Serial.println("%");
 
-  // wysyłanie temperatury
-  char tempMsg[10];
-  dtostrf(t, 6, 2, tempMsg);  // (wartość, szerokość, miejsca po przecinku, bufor)
-  client.publish("stacja/temperatura", tempMsg);
+  StaticJsonDocument<128> doc;
+  doc["temperatura"] = t;
+  doc["wilgotnosc"] = h;
 
-  // wysyłanie wilgotności
-  char humMsg[10];
-  dtostrf(h, 6, 2, humMsg);
-  client.publish("stacja/wilgotnosc", humMsg);
-
-  delay(5000); // co 5 sekund
+  char buffer[128];
+  serializeJson(doc, buffer);
+  if (client.publish("stacja", buffer)) {
+    Serial.println("Wysłano dane do MQTT");
+  } else {
+    Serial.println("Błąd wysyłki MQTT!");
+  }
+  delay(5000);
 }

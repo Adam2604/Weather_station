@@ -10,15 +10,17 @@ def index():
     cursor = conn.cursor()
 
     # pobieramy ostatnią wiadomość
-    cursor.execute("SELECT payload, timestamp FROM pomiary ORDER BY id DESC LIMIT 1")
+    cursor.execute("SELECT temperatura, wilgotnosc, timestamp FROM pomiary ORDER BY id DESC LIMIT 1")
     row = cursor.fetchone()
     conn.close()
 
     # jeżeli brak danych w bazie
     if row is None:
         temperatura = "brak danych"
+        wilgotnosc = "brak danych"
     else:
         temperatura = row[0]
+        wilgotnosc = row[1]
 
     html = """
     <html>
@@ -46,28 +48,18 @@ def index():
                 font-weight: bold;
                 color: #d9534f;
             }
-            .card {
-                font-size: 32px; /* domyślnie na komputerze */
-            }
-
-            @media (max-width: 1081px) {
-                .card {
-                    font-size: 80px; /* większy napis na telefonach */
-                    margin-top: -600px;
-                }
-            }
-
         </style>
     </head>
     <body>
         <div class="card">
-            Temperatura: <span class="value">{{ temperatura }}</span> °C
+            Temperatura: <span class="value">{{ temperatura }}</span> °C<br>
+            Wilgotność: <span class="value">{{ wilgotnosc }}</span> %
         </div>
     </body>
     </html>
     """
 
-    return render_template_string(html, temperatura=temperatura)
+    return render_template_string(html, temperatura=temperatura, wilgotnosc=wilgotnosc)
 
 if __name__ == "__main__":
     app.run(host="192.168.0.50", port=5000, debug=True)
