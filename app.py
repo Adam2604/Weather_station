@@ -35,14 +35,17 @@ def index():
                 align-items: center;
                 height: 100vh;
                 background-color: #f5f5f5;
+                flex-direction: column; /* ustawiamy kolumnę, żeby karty były jedna pod drugą */
             }
             .card {
                 background: white;
                 padding: 40px;
                 border-radius: 12px;
                 box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
-                font-size: 32px;
+                font-size: 28px;
                 text-align: center;
+                margin: 10px 0; /* odstęp między kartami */
+                width: 280px; /* opcjonalnie, aby karty były równej szerokości */
             }
             .value {
                 font-weight: bold;
@@ -52,7 +55,9 @@ def index():
     </head>
     <body>
         <div class="card">
-            Temperatura: <span class="value">{{ temperatura }}</span> °C<br>
+            Temperatura: <span class="value">{{ temperatura }}</span> °C
+        </div>
+        <div class="card">
             Wilgotność: <span class="value">{{ wilgotnosc }}</span> %
         </div>
     </body>
