@@ -3,6 +3,7 @@ import paho.mqtt.client as mqtt
 import sys
 import json
 import os
+import datetime
 
 BROKER = "localhost"
 TOPIC = "stacja"
@@ -49,10 +50,11 @@ def on_message(client, userdata, msg):
     try:
         conn = sqlite3.connect(DB_FILE)
         cursor = conn.cursor()
+        czas = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         cursor.execute(
-            "INSERT INTO pomiary (temperatura, wilgotnosc) VALUES (?, ?)",
-            (temperatura, wilgotnosc)
-        )
+            "INSERT INTO pomiary (temperatura, wilgotnosc, timestamp) VALUES (?, ?, ?)",
+            (temperatura, wilgotnosc, czas)
+)
         conn.commit()
         conn.close()
     except Exception as e:
