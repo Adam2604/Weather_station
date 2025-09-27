@@ -90,5 +90,5 @@ void loop() {
   } else {
     Serial.println("Błąd wysyłki MQTT!");
   }
-  delay(5000);
+  delay(30000);
 }
