@@ -98,7 +98,11 @@ def temperatura_page():
     </head>
     <body style="display:flex; flex-direction:column; align-items:center; justify-content:center;">
         <h2 style="margin-bottom: 10px;">Wykres temperatury z dzisiejszego dnia</h2>
-        <canvas id="chart" width="800" height="400"></canvas>
+        
+        <!-- kontener dla wykresu -->
+        <div style="width: 1000px; max-width: 90%; height: 300px; display:flex; justify-content:center;">
+            <canvas id="chart"></canvas>
+        </div>
 
         <a href="/" 
         style="margin-top: 20px; padding: 10px 20px; background-color: #007bff; color: white; border-radius: 6px; text-decoration: none;">
@@ -121,6 +125,8 @@ def temperatura_page():
                 }]
             },
             options: {
+                responsive: true,  // pozwala na automatyczne skalowanie
+                maintainAspectRatio: false,  // pozwala zmieniać proporcje
                 scales: {
                     x: {
                         type: 'time',
@@ -153,4 +159,5 @@ def temperatura_page():
 
 if __name__ == "__main__":
     app.run(host="192.168.0.50", port=5000, debug=True)
+
 
