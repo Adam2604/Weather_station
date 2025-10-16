@@ -4,11 +4,11 @@
 #include <ArduinoJson.h>
 
 // WiFi configuration
-const char* ssid = "NETGEAR60";
-const char* password = "aquaticpotato892";
+const char* ssid = "HALNy-2.4G-0dff85";
+const char* password = "Y3RWHYLc3T";
 
 // konfiguracja MQTT
-const char* mqtt_server = "192.168.0.50"; // Raspberry Pi IP
+const char* mqtt_server = "192.168.34.15"; // Raspberry Pi IP
 
 WiFiClient espClient;
 PubSubClient client(espClient);

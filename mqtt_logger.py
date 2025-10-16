@@ -45,7 +45,6 @@ def on_message(client, userdata, msg):
         return
 
     print(f"[on_message] {msg.topic} -> T={temperatura}°C, H={wilgotnosc}%")
-    print(f"[on_message] baza: {os.path.abspath(DB_FILE)}")
 
     try:
         conn = sqlite3.connect(DB_FILE)
@@ -54,7 +53,7 @@ def on_message(client, userdata, msg):
         cursor.execute(
             "INSERT INTO pomiary (temperatura, wilgotnosc, timestamp) VALUES (?, ?, ?)",
             (temperatura, wilgotnosc, czas)
-)
+        )
         conn.commit()
         conn.close()
     except Exception as e:
@@ -74,4 +73,5 @@ except Exception as e:
 
 print("Czekam na dane...")
 client.loop_forever()
+
 
