@@ -55,6 +55,13 @@ void setup() {
   setup_wifi();
   client.setServer(mqtt_server, 1883);
   dht.begin();
+  WiFi.persistent(false);
+  WiFi.mode(WIFI_STA);
+  WiFi.setSleep(false);
+  esp_log_level_set("wifi", ESP_LOG_NONE);
+  esp_log_level_set("*", ESP_LOG_NONE);
+  pinMode(2, OUTPUT);
+  digitalWrite(2, LOW);
 }
 
 void loop() {
