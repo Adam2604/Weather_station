@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         webView.webViewClient = WebViewClient()
 
         // tutaj wpisujesz adres swojej strony Flask
-        webView.loadUrl("http://192.168.0.50:5000")
+        webView.loadUrl("http://192.168.34.15:5000")
     }
 }
 
